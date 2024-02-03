@@ -14,11 +14,18 @@ export default function Auth() {
     }
   }
   return (
-    <div className="flex flex-col h-screen items-center justify-center">
-      <div className="w-1/2">
+    <div className="flex h-screen items-center justify-center">
+      <div className="hidden md:block md:w-1/2 lg:w-2/3">
+        <img
+          src="https://source.unsplash.com/random"
+          alt="Imagem da tela de autenticaçao"
+          className="h-screen w-full object-cover"
+        />
+      </div>
+      <div className="m-10 w-full md:w-1/2 lg:w-1/3">
         <h1
           className={`
-    text-xl font-bold mb-5
+    text-3xl font-bold mb-5
     `}
         >
           {modo === 'login'
@@ -61,6 +68,29 @@ export default function Auth() {
         >
           Entrar com Google
         </button>
+
+        {modo === 'login' ? (
+          <p className="mt-8">
+            Novo por aqui?
+            <a
+              onClick={() => setModo('cadastro')}
+              className="cursor-pointer text-blue-500 hover:text-blue-700 font-semibold"
+            >
+              {' '}
+              Crie uma conta gratuitamente
+            </a>
+          </p>
+        ) : (
+          <p className="mt-8">
+            Já faz parte da nossa comunidade?
+            <a
+              onClick={() => setModo('login')}
+              className="cursor-pointer text-blue-500 hover:text-blue-700 font-semibold"
+            >
+              Entre com a sua credenciais
+            </a>
+          </p>
+        )}
       </div>
     </div>
   );
