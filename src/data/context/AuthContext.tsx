@@ -8,6 +8,7 @@ interface AuthContextProps {
   usuario?: Usuario;
   loginGoogle?: () => Promise<void>;
   logout?: () => Promise<void>;
+  carregando?: boolean;
 }
 
 const AuthContext = createContext<AuthContextProps>({});
@@ -89,7 +90,7 @@ export function AuthProvider(props: any) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ usuario, loginGoogle, logout }}>
+    <AuthContext.Provider value={{ usuario, loginGoogle, logout, carregando }}>
       {props.children}
     </AuthContext.Provider>
   );
