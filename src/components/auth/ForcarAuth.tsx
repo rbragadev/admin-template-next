@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Image from 'next/image';
 import loading from '../../../public/images/loading.gif';
 import useAuth from '@/data/hook/useAuth';
@@ -7,7 +8,22 @@ export default function ForcarAuth(props) {
   const { usuario, carregando } = useAuth();
 
   function renderizarConteudo() {
-    return <>{props.children}</>;
+    return (
+      <>
+        <Head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+        if(!document.cookie?.includes("admin-template-cod3r-auth")){
+          window.location.href = "/auth"
+        }
+        `,
+            }}
+          />
+        </Head>
+        {props.children}
+      </>
+    );
   }
 
   function renderizarCarregando() {
