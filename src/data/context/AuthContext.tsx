@@ -6,6 +6,8 @@ import Cookies from 'js-cookie';
 
 interface AuthContextProps {
   usuario?: Usuario;
+  cadastrar?: (email: string, senha: string) => Promise<void>;
+  login?: (email: string, senha: string) => Promise<void>;
   loginGoogle?: () => Promise<void>;
   logout?: () => Promise<void>;
   carregando?: boolean;
@@ -70,6 +72,34 @@ export function AuthProvider(props: any) {
     }
   }
 
+  async function login(email, senha) {
+    try {
+      setCarregando(true);
+      const resp = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, senha);
+
+      await configurarSessao(resp.user);
+      route.push('/');
+    } finally {
+      setCarregando(false);
+    }
+  }
+
+  async function cadastrar(email, senha) {
+    try {
+      setCarregando(true);
+      const resp = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, senha);
+
+      await configurarSessao(resp.user);
+      route.push('/');
+    } finally {
+      setCarregando(false);
+    }
+  }
+
   async function logout() {
     try {
       setCarregando(true);
@@ -90,7 +120,9 @@ export function AuthProvider(props: any) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ usuario, loginGoogle, logout, carregando }}>
+    <AuthContext.Provider
+      value={{ usuario, login, cadastrar, loginGoogle, logout, carregando }}
+    >
       {props.children}
     </AuthContext.Provider>
   );
